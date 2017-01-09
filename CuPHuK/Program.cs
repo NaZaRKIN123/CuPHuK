@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +12,9 @@ namespace CuPHuK
     {
         static void Main(string[] args)
         {
-            string input = Console.ReadLine();
-            UserInput ArgumentsList = new UserInput(UserInput.SplitToArguments(input));
-            ArgumentsList.Print();
+            UserInput inputLine = new UserInput(Console.ReadLine());
+            inputLine.SplitToArguments();
+            inputLine.Print();
         }
     }
 }
