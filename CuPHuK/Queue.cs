@@ -1,15 +1,32 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CuPHuK
 {
-    public static class Queue
+    public class Queue
     {
-        public static decimal CalculateArguments(List<string> argumentsHolder, short numOfQueues)
+        public short PositionBegin { get; internal set; }
+        public short PositionEnd { get; internal set; }
+        public void Position(List<string> argumentsHolder)
+        {
+            for (short i = 0; i < argumentsHolder.Count - 1; i++)
+            {
+                if (argumentsHolder[i] == ")")
+                {
+                    PositionEnd = i;
+                    break;
+                }
+            }
+            for (short i = PositionEnd; i > 0; i--)
+            {
+                if (argumentsHolder[i] == "(")
+                {
+                    PositionBegin = i;
+                    break;
+                }
+            }
+        }
+        public static decimal Calculate(List<string> argumentsHolder)
         {
             decimal result = 0;
             return result;
