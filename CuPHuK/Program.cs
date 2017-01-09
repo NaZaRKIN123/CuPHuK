@@ -1,9 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections;
 
 
 namespace CuPHuK
@@ -15,6 +10,7 @@ namespace CuPHuK
             UserInput inputLine = new UserInput(Console.ReadLine());
             inputLine.SplitToArguments();
             inputLine.Print();
+            inputLine.CalculateAllQueues();
         }
     }
 }
