@@ -7,12 +7,17 @@ using System.Threading.Tasks;
 
 namespace CuPHuK
 {
-    class Queue
+    public static class Queue
     {
-        public decimal CalculateArguments(ArrayList argumentsHolder)
+        public static decimal CalculateArguments(List<string> argumentsHolder, short numOfQueues)
         {
             decimal result = 0;
             return result;
+        }
+        public static short Count(List<string> argumentsHolder)
+        {
+            var query = argumentsHolder.Where(t => t.Contains("("));
+            return (short)(query.Count() + 1);
         }
     }
 }
