@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,6 +9,11 @@ namespace CuPHuK
     {
         public short PositionBegin { get; internal set; }
         public short PositionEnd { get; internal set; }
+        public Queue(List<string> argumentsHolder)
+        {
+            PositionBegin = 0;
+            PositionEnd = Convert.ToInt16(argumentsHolder.Count - 1);
+        }
         public void Position(List<string> argumentsHolder)
         {
             for (short i = 0; i < argumentsHolder.Count - 1; i++)
@@ -26,7 +33,7 @@ namespace CuPHuK
                 }
             }
         }
-        public static decimal Calculate(List<string> argumentsHolder)
+        public static decimal Calculate(ArrayList argumentsHolder)
         {
             decimal result = 0;
             return result;
