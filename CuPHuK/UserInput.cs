@@ -7,14 +7,15 @@ namespace CuPHuK
 {
     public class UserInput
     {
-        public ArrayList Arguments { get; set; }
+        public List<string> Arguments { get; set; }
         public short NumberOfQueues { get; set; }
         public string InputString { get; set; }
 
         public UserInput(string inputString)
         {
             InputString = inputString;
-            NumberOfQueues = GetQueuesCount(Arguments);
+            NumberOfQueues = 0;
+            Arguments = new List<string>() { };
         }
         public void SplitToArguments()
         {
@@ -25,12 +26,12 @@ namespace CuPHuK
                 bool IsDigit = Char.IsDigit(stringToSplit[i]);
                 if (!IsDigit)
                 {
-                    Arguments.Add(stringToSplit[i]);
+                    Arguments.Add(Convert.ToString(stringToSplit[i]));
                     isPreviousDigit = false;
                 }
                 else if (IsDigit && !isPreviousDigit)
                 {
-                    Arguments.Add(stringToSplit[i]);
+                    Arguments.Add(Convert.ToString(stringToSplit[i]));
                     isPreviousDigit = true;
                 }
                 else
@@ -41,20 +42,11 @@ namespace CuPHuK
                     prevNumHolder = prevNumHolder * 10 + Convert.ToInt32(Convert.ToString(stringToSplit[i]));
                     //exchange last item in list with prevNumHolder
                     Arguments.RemoveAt(Arguments.Count - 1);
-                    Arguments.Add(prevNumHolder);
+                    Arguments.Add(Convert.ToString(prevNumHolder));
                     isPreviousDigit = true;
                 }
                 stringToSplit.Remove(0, 1);
             }
-        }
-        public short GetQueuesCount(ArrayList argumentsHolder)
-        {
-            var query = from a in argumentsHolder
-                        where a.Contains('(')
-                        select a;
-
-            short numOfQueues = (short)(query.Count() + 1);
-            return numOfQueues;
         }
         public void Print()
         {
@@ -62,7 +54,7 @@ namespace CuPHuK
             {
                 Console.WriteLine(Convert.ToString(o));
             }
-            //Console.WriteLine(NumberOfQueues());
+            Console.WriteLine("There are: {0} queues.", Queue.Count(Arguments));
         }
     }
 }
