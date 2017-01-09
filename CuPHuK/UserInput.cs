@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,59 +8,61 @@ namespace CuPHuK
     public class UserInput
     {
         public ArrayList Arguments { get; set; }
+        public short NumberOfQueues { get; set; }
 
         public UserInput(ArrayList argumentsList)
         {
             Arguments = argumentsList;
+            NumberOfQueues = GetQueuesCount(Arguments);
         }
-        public ArrayList SplitToArguments(string stringToSplit)
+        public void SplitToArguments(string stringToSplit)
         {
-            ArrayList argumentsHolder = new ArrayList() { };
+            //ArrayList Arguments = new ArrayList() { };
             bool isPreviousDigit = false;
             for (int i = 0; i < stringToSplit.Length; i++)
             {
                 bool IsDigit = Char.IsDigit(stringToSplit[i]);
                 if (!IsDigit)
                 {
-                    argumentsHolder.Add(stringToSplit[i]);
+                    Arguments.Add(stringToSplit[i]);
                     isPreviousDigit = false;
                 }
                 else if (IsDigit && !isPreviousDigit)
                 {
-                    argumentsHolder.Add(stringToSplit[i]);
+                    Arguments.Add(stringToSplit[i]);
                     isPreviousDigit = true;
                 }
                 else
                 {
                     //take number from last item in List
-                    int prevNumHolder = Convert.ToInt32(Convert.ToString(argumentsHolder[argumentsHolder.Count - 1]));
+                    int prevNumHolder = Convert.ToInt32(Convert.ToString(Arguments[Arguments.Count - 1]));
                     //append current digit
-                    prevNumHolder *= 10 + Convert.ToInt32(Convert.ToString(stringToSplit[i]));
+                    prevNumHolder = prevNumHolder * 10 + Convert.ToInt32(Convert.ToString(stringToSplit[i]));
                     //exchange last item in list with prevNumHolder
-                    argumentsHolder.RemoveAt(argumentsHolder.Count - 1);
-                    argumentsHolder.Add(prevNumHolder);
+                    Arguments.RemoveAt(Arguments.Count - 1);
+                    Arguments.Add(prevNumHolder);
                     isPreviousDigit = true;
                 }
                 stringToSplit.Remove(0, 1);
             }
-            return argumentsHolder;
+            //return Arguments;
         }
-        public short getNamberOfQueues(List<string> argumentsHolder)
+        public short GetQueuesCount(ArrayList argumentsHolder)
         {
-            var result = argumentsHolder.Where(a => a.Count('('));
-            return result;
-        }
-        public decimal CalculateArguments(ArrayList argumentsHolder)
-        {
-            decimal result = 0;
-            return result;
+            var query = from a in argumentsHolder
+                        where a.Contains('(')
+                        select a;
+
+            short numOfQueues = (short)(query.Count() + 1);
+            return numOfQueues;
         }
         public void Print()
         {
-            foreach (object i in Arguments)
+            foreach (object o in Arguments)
             {
-                Console.WriteLine(Convert.ToString(i));
+                Console.WriteLine(Convert.ToString(o));
             }
+            //Console.WriteLine(NumberOfQueues());
         }
     }
 }
