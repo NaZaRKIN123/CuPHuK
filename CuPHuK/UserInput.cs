@@ -9,15 +9,16 @@ namespace CuPHuK
     {
         public ArrayList Arguments { get; set; }
         public short NumberOfQueues { get; set; }
+        public string InputString { get; set; }
 
-        public UserInput(ArrayList argumentsList)
+        public UserInput(string inputString)
         {
-            Arguments = argumentsList;
+            InputString = inputString;
             NumberOfQueues = GetQueuesCount(Arguments);
         }
-        public void SplitToArguments(string stringToSplit)
+        public void SplitToArguments()
         {
-            //ArrayList Arguments = new ArrayList() { };
+            string stringToSplit = InputString;
             bool isPreviousDigit = false;
             for (int i = 0; i < stringToSplit.Length; i++)
             {
@@ -45,7 +46,6 @@ namespace CuPHuK
                 }
                 stringToSplit.Remove(0, 1);
             }
-            //return Arguments;
         }
         public short GetQueuesCount(ArrayList argumentsHolder)
         {
