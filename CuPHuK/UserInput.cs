@@ -1,21 +1,30 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace CuPHuK
 {
     public class UserInput
     {
-        public List<string> Arguments { get; set; }
-        public short NumberOfQueues { get; set; }
+        public List<string> Arguments { get; internal set; }
+        public short NumberOfQueues { get; internal set; }
         public string InputString { get; set; }
-
         public UserInput(string inputString)
         {
             InputString = inputString;
             NumberOfQueues = 0;
             Arguments = new List<string>() { };
+        }
+        public void CalculateAllQueues()
+        {
+            NumberOfQueues = Queue.Count(Arguments);
+            ArrayList preliminaryResults = new ArrayList(Arguments);
+            for (int i = 0; i < NumberOfQueues; i++)
+            {
+                Queue positionOfQueue = new Queue(Arguments);
+                positionOfQueue.Position(Arguments);
+                preliminaryResults = positionOfQueue.Calculate(preliminaryResults);
+            }
         }
         public void SplitToArguments()
         {
