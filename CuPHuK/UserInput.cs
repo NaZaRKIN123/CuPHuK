@@ -4,66 +4,53 @@ using System.Collections.Generic;
 
 namespace CuPHuK
 {
-    public class UserInput
+    public static class UserInput
     {
-        public List<string> Arguments { get; internal set; }
-        public short NumberOfQueues { get; internal set; }
-        public string InputString { get; set; }
-        public UserInput(string inputString)
+        public static List<string> Parse(string stringToParse)
         {
-            InputString = inputString;
-            NumberOfQueues = 0;
-            Arguments = new List<string>() { };
-        }
-        public void CalculateAllQueues()
-        {
-            NumberOfQueues = Queue.Count(Arguments);
-            ArrayList preliminaryResults = new ArrayList(Arguments);
-            for (int i = 0; i < NumberOfQueues; i++)
-            {
-                Queue positionOfQueue = new Queue(Arguments);
-                positionOfQueue.Position(Arguments);
-                preliminaryResults = positionOfQueue.Calculate(preliminaryResults);
-            }
-        }
-        public void SplitToArguments()
-        {
-            string stringToSplit = InputString;
             bool isPreviousDigit = false;
-            for (int i = 0; i < stringToSplit.Length; i++)
+            bool isNegativeNum = false;
+            List<string> arguments = new List<string>() { };
+            for (int i = 0; i < stringToParse.Length; i++)
             {
-                bool IsDigit = Char.IsDigit(stringToSplit[i]);
-                if (!IsDigit)
+                bool isDigit = Char.IsDigit(stringToParse[i]);
+                bool isDecimalDot = Char.Equals('.', stringToParse[i]);
+                bool isMinusSign = Char.Equals('-', stringToParse[i]);
+                if (isMinusSign && !isPreviousDigit)
                 {
-                    Arguments.Add(Convert.ToString(stringToSplit[i]));
+                    isNegativeNum = true;
+                }
+                //new arg if some single Math sign
+                if (!isDigit && !isDecimalDot)
+                {
+                    arguments.Add(stringToParse[i].ToString());
                     isPreviousDigit = false;
                 }
-                else if (IsDigit && !isPreviousDigit)
+                //new arg if first digit or digit right after Math sign
+                else if (isDigit && !isPreviousDigit && !isNegativeNum)
                 {
-                    Arguments.Add(Convert.ToString(stringToSplit[i]));
+                    arguments.Add(stringToParse[i].ToString());
                     isPreviousDigit = true;
                 }
+                //append digit or dot to previous digit
+                //append digit if negative num to minus sign
                 else
                 {
-                    //take number from last item in List
-                    int prevNumHolder = Convert.ToInt32(Convert.ToString(Arguments[Arguments.Count - 1]));
-                    //append current digit
-                    prevNumHolder = prevNumHolder * 10 + Convert.ToInt32(Convert.ToString(stringToSplit[i]));
-                    //exchange last item in list with prevNumHolder
-                    Arguments.RemoveAt(Arguments.Count - 1);
-                    Arguments.Add(Convert.ToString(prevNumHolder));
+                    arguments[arguments.Count - 1] = arguments[arguments.Count - 1] + stringToParse[i];
                     isPreviousDigit = true;
+                    isNegativeNum = false;
                 }
-                stringToSplit.Remove(0, 1);
+                stringToParse.Remove(0, 1);
             }
+            return arguments;
         }
-        public void Print()
+        public static void Print(List<string> arguments)
         {
-            foreach (object o in Arguments)
+            foreach (object o in arguments)
             {
                 Console.WriteLine(Convert.ToString(o));
             }
-            Console.WriteLine("There are: {0} queues.", Queue.Count(Arguments));
+            Console.WriteLine("There are: {0} pair(s) of brackets", BracketsManager.Count(arguments));
         }
     }
 }
